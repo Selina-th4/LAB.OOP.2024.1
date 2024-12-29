@@ -1,9 +1,6 @@
 package hust.soict.dsai.aims.media;
 
+import hust.soict.dsai.aims.exception.*;
 public interface Playable {
-    void play();
-    void stop();
-    void pause();
-    void resume();
-    boolean isPlaying();
+	public void play() throws PlayerException;;
 }

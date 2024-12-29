@@ -1,90 +1,98 @@
 package hust.soict.dsai.aims.media;
-
+import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.Objects;
 
 public abstract class Media {
-    private int id;
-    private String title;
-    private String category;
-    private float cost;
+	private String title;
+	private String category;
+	private float cost;
+	private LocalDate dateAdded;
+	private int id;
+	private static int nbMedia = 1;
+	
+	public static final Comparator<Media> COMPARE_BY_TITLE_COST = new MediaComparatorByTitleCost();
+	public static final Comparator<Media> COMPARE_BY_COST_TITLE = new MediaComparatorByCostTitle();
+	
+	public boolean equals(Object medium) {
+		if (medium instanceof Media) {
+			try {
+				Media that = (Media) medium;
+				return this.title.toLowerCase().equals(that.getTitle().toLowerCase());
+			} catch (NullPointerException e1) {
+				return false;
+			} catch (ClassCastException e2) {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean search(String title) {
+		return this.title.toLowerCase().contains(title.toLowerCase());
+	}
 
-    public static final Comparator<Media> COMPARE_BY_TITLE_COST = new MediaComparatorByTitleCost();
-    public static final Comparator<Media> COMPARE_BY_COST_TITLE = new MediaComparatorByCostTitle();
 
-    public Media() {
-        super();
-    }
+	public Media(String title, String category, float cost) {
+		super();
+		this.title = title;
+		this.category = category;
+		this.cost = cost;
+		this.id = nbMedia;
+		nbMedia += 1;
+	}
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public Media(String title, String category) {
+		super();
+		this.title = title;
+		this.category = category;
+		this.id = nbMedia;
+		nbMedia += 1;
+	}
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public Media(String title) {
+		super();
+		this.title = title;
+		this.id = nbMedia;
+		nbMedia += 1;
+	}
 
-    public String getCategory() {
-        return category;
-    }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+	public int getID() {
+		return id;
+	}
 
-    public float getCost() {
-        return cost;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setCost(float cost) {
-        this.cost = cost;
-    }
 
-    public Media(String title, String category, float cost) {
-        this.title = title;
-        this.category = category;
-        this.cost = cost;
-    }
+	public String getCategory() {
+		return category;
+	}
 
-    public boolean equals(Media medium) {
-        return this.getTitle().equals(medium.getTitle());
-    }
 
-    public String toString() {
-        return "Media [title=" + title + ", category=" + category + ", cost=" + cost + "]";
-    }
+	public float getCost() {
+		return cost;
+	}
 
-    public abstract void displayInfo();
 
-    public abstract String getType();
+	public LocalDate getDateAdded() {
+		return dateAdded;
+	}
+	
+	public void setDateAdded(LocalDate date) {
+		this.dateAdded = date;
+	}
+	
+	public abstract String getType();
+	
+	public abstract String getDetails();
+	
+	public String toString() {
+		return this.getDetails();
+	}
 
-    public abstract String getDirector();
-
-    public abstract boolean filterByCategory(String category);
-
-    public abstract boolean isMatch(String title);
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        Media other = (Media) obj;
-        return Objects.equals(title, other.title);
-    }
-
-    public void play() {
-        System.out.println("Playing " + getType() + ": " + getTitle());
-    }
 }

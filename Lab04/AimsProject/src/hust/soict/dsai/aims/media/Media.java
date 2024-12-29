@@ -1,90 +1,89 @@
 package hust.soict.dsai.aims.media;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Objects;
 
 public abstract class Media {
-    private int id;
-    private String title;
-    private String category;
-    private float cost;
+	private int id;
+	private String title;
+	private String category;
+	private float cost;
+	
+	public static final Comparator<Media> COMPARE_BY_TITLE_COST	=
+			new MediaComparatorByTitleCost();
+	public static final Comparator<Media> COMPARE_BY_COST_TITLE	=
+			new MediaComparatorByCostTitle();
+	
+	public Media(int id, String title, String category, float cost) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.category = category;
+		this.cost = cost;
+	}
 
-    public static final Comparator<Media> COMPARE_BY_TITLE_COST = new MediaComparatorByTitleCost();
-    public static final Comparator<Media> COMPARE_BY_COST_TITLE = new MediaComparatorByCostTitle();
+	public int getId() {
+		return id;
+	}
 
-    public Media() {
-        super();
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getCategory() {
+		return category;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
-    public String getCategory() {
-        return category;
-    }
+	public float getCost() {
+		return cost;
+	}
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public float getCost() {
-        return cost;
-    }
-
-    public void setCost(float cost) {
-        this.cost = cost;
-    }
-
-    public Media(String title, String category, float cost) {
-        this.title = title;
-        this.category = category;
-        this.cost = cost;
-    }
-
-    public boolean equals(Media medium) {
-        return this.getTitle().equals(medium.getTitle());
-    }
-
-    public String toString() {
-        return "Title: " + this.getTitle();
-    }
-
-    public abstract void displayInfo();
-
-    public abstract String getType();
-
-    public abstract String getDirector();
-
-    public abstract boolean filterByCategory(String category);
-
-    public abstract boolean isMatch(String title);
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        Media other = (Media) obj;
-        return Objects.equals(title, other.title);
-    }
-
-    public void play() {
-        System.out.println("Playing " + getType() + ": " + getTitle());
-    }
+	public void setCost(float cost) {
+		this.cost = cost;
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj instanceof Media) {
+			Media media = (Media) obj;
+			if (this.id == media.id) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static void main(String[] args) {
+	    ArrayList<Media> mediae = new ArrayList<>();
+	    
+	    CompactDisc cd = new CompactDisc(3,"superman","action",305.5f);
+	    DigitalVideoDisc dvd = new DigitalVideoDisc(1,"starWar", "action", 1563.6f );
+	    Book book = new Book(5,"khonggiadinh", "slice of life", 55.6f);
+	    
+	    // Add some media objects to the list
+	    mediae.add(cd);
+	    mediae.add(dvd);
+	    mediae.add(book);
+	    
+	    Collections.sort(mediae, Media.COMPARE_BY_TITLE_COST);    
+	    
+	    for (Media media : mediae) {
+	        System.out.println(media.toString());
+	    }
+	}
 }
+
+
+

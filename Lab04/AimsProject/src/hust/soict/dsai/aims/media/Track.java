@@ -1,71 +1,40 @@
 package hust.soict.dsai.aims.media;
-import java.util.Objects;
 
-
-public class Track implements Playable {
-    private String title;
-    private int length;
-
-    public Track() {
-    }
-
-    public Track(String title, int length) {
-        this.title = title;
-        this.length = length;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-    public void play() {
-    	  System.out.println("Playing DVD: " + this.getTitle());
-    	  System.out.println("DVD length: " + this.getLength());
-    }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        Track other = (Track) obj;
-        return Objects.equals(title, other.title) && length == other.length;
-    }
-
-	@Override
-	public void stop() {
-		// TODO Auto-generated method stub
-		
+public class Track extends CompactDisc implements Playable {
+	private String titleTrack;
+	private int length;
+	
+	public Track(int id, String title, String category, float cost, String titleTrack, int length) {
+		super(id, title, category, cost);
+		this.titleTrack = titleTrack;
+		this.length = length;
 	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
+	
+	public void play() {
+		System.out.println("Playing DVD: " + this.getTitle());
+		System.out.println("DVD length: " + this.getLength());
 	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
+	
+	public String getTitle() {
+		return titleTrack;
 	}
-
-	@Override
-	public boolean isPlaying() {
-		// TODO Auto-generated method stub
+	public void setTitle(String title) {
+		this.titleTrack = title;
+	}
+	public int getLength() {
+		return length;
+	}
+	public void setLength(int length) {
+		this.length = length;
+	}
+	
+	public boolean equals(Object obj) {
+		if (obj instanceof Track) {
+			Track track = (Track) obj;
+			if (this.titleTrack.equals(track.titleTrack) && this.length == track.length) {
+				return true;
+			}
+		}
 		return false;
 	}
 }
